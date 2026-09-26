@@ -1,0 +1,19 @@
+.controls {
+  padding: 0 var(--gutter) 1.2rem;
+}
+
+.addIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--fill);
+  color: var(--tint);
+}
+
+.link {
+  color: var(--tint);
+  font-weight: 500;
+}

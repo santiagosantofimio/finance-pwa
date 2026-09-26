@@ -1,0 +1,43 @@
+.display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2rem;
+  font-family: var(--font-amount);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--label);
+  transition: color 200ms ease;
+}
+
+.display[data-kind='income'] {
+  color: var(--positive);
+}
+
+.display[data-empty] {
+  color: var(--label-3);
+}
+
+.sign {
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: var(--label-2);
+}
+
+.display[data-kind='income'] .sign {
+  color: inherit;
+}
+
+.digits {
+  font-size: 3.6rem;
+}
+
+.display[data-size='medium'] .digits {
+  font-size: 2.8rem;
+}
+
+.display[data-size='small'] .digits {
+  font-size: 2.2rem;
+}

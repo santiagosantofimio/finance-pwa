@@ -1,0 +1,131 @@
+.group {
+  margin: 0 var(--gutter) 1.75rem;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 0.25rem 0.5rem 1rem;
+}
+
+.title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.body {
+  background: var(--surface);
+  border-radius: var(--radius-group);
+  overflow: hidden;
+}
+
+.flush {
+  background: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.footer {
+  padding: 0.5rem 1rem 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--label-2);
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  min-height: 2.9rem;
+  padding: 0.6rem 1rem;
+  text-align: left;
+}
+
+.row + .row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: var(--separator-inset, 1rem);
+  height: 0.5px;
+  background: var(--separator);
+}
+
+.row:has(.leading) {
+  --separator-inset: calc(1rem + 32px + 0.8rem);
+}
+
+.pressable {
+  transition: background-color 120ms ease;
+}
+
+.pressable:active {
+  background: var(--fill);
+}
+
+.leading {
+  display: inline-flex;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.rowTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.destructive {
+  color: var(--danger);
+}
+
+.trailing {
+  color: var(--label-2);
+  white-space: nowrap;
+}
+
+.trailing :global(.amount) {
+  color: var(--label);
+  font-weight: 500;
+}
+
+.trailing :global(.amount[data-kind='income']) {
+  color: var(--positive);
+}
+
+.subtitle {
+  font-size: 0.82rem;
+  color: var(--label-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: 0.1rem;
+  border-top: 2px solid var(--label-3);
+  border-right: 2px solid var(--label-3);
+  transform: rotate(45deg);
+}

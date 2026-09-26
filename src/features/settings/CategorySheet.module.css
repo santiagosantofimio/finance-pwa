@@ -1,0 +1,114 @@
+.save {
+  font-weight: 700;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.6rem var(--gutter) 1.2rem;
+  padding: 1.4rem 1rem 1rem;
+  border-radius: var(--radius-group);
+  background: var(--surface);
+}
+
+.name {
+  width: 100%;
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--fill);
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--label);
+}
+
+.name::placeholder {
+  color: var(--placeholder);
+  font-weight: 500;
+}
+
+.name:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus);
+}
+
+.section {
+  margin: 0 var(--gutter) 1.2rem;
+  padding: 1rem;
+  border-radius: var(--radius-group);
+  background: var(--surface);
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.7rem 0.5rem;
+  justify-items: center;
+}
+
+.color {
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 999px;
+  box-shadow: 0 0 0 0 transparent;
+  transition:
+    box-shadow 180ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.color[aria-checked='true'] {
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 0 0 5.5px var(--swatch);
+}
+
+.color:active {
+  transform: scale(0.9);
+}
+
+.icons {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.45rem;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--fill);
+  color: var(--label-2);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms var(--ease-out);
+}
+
+.icon[aria-checked='true'] {
+  background: var(--swatch);
+  color: #ffffff;
+}
+
+.icon:active {
+  transform: scale(0.9);
+}
+
+.dangerZone {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0 var(--gutter) 1.5rem;
+}
+
+.hint {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--label-2);
+  text-align: center;
+  padding: 0 1rem;
+}

@@ -1,0 +1,144 @@
+.dialog {
+  position: fixed;
+  inset: auto 0 var(--keyboard-inset, 0px) 0;
+  z-index: 50;
+  width: 100%;
+  max-width: 34rem;
+  max-height: calc(100dvh - var(--keyboard-inset, 0px) - max(var(--safe-top), 12px) - 10px);
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--label);
+  overflow: visible;
+  transition: bottom 250ms var(--ease-out);
+}
+
+.dialog[data-size='large'] {
+  height: calc(100dvh - var(--keyboard-inset, 0px) - max(var(--safe-top), 12px) - 10px);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+  opacity: calc(1 - var(--drag-progress, 0));
+  transition: opacity 400ms var(--ease-drawer);
+}
+
+@starting-style {
+  .dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.dialog[data-state='closing']::backdrop {
+  opacity: 0;
+  transition-duration: 300ms;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: inherit;
+  background: var(--surface-sheet);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  box-shadow: var(--shadow-sheet);
+  padding-bottom: var(--safe-bottom);
+  transform: translate3d(0, 0, 0);
+  transition: transform 460ms var(--ease-drawer);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+@starting-style {
+  .dialog[open] .panel {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+.dialog[data-state='closing'] .panel {
+  transform: translate3d(0, 100%, 0);
+  transition-duration: 320ms;
+}
+
+.panel:focus-visible {
+  outline: none;
+}
+
+.panel[data-dragging] {
+  transition: none;
+}
+
+.grabber {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 6px 0 2px;
+}
+
+.grabber::before {
+  content: '';
+  width: 2.3rem;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--label-3);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 0.35rem 0.75rem 0.5rem;
+  min-height: 3.2rem;
+}
+
+.headerSide {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.headerTrailing {
+  justify-content: flex-end;
+}
+
+.headerTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .dialog[data-state='closing'] .panel {
+    transition: opacity 200ms ease;
+    transform: none;
+  }
+
+  @starting-style {
+    .dialog[open] .panel {
+      transform: none;
+      opacity: 0;
+    }
+  }
+
+  .dialog[data-state='closing'] .panel {
+    opacity: 0;
+  }
+}
+
+.grabber,
+.header {
+  touch-action: none;
+}

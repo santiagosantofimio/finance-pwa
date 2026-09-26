@@ -1,0 +1,38 @@
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  padding: 0 var(--gutter);
+}
+
+.key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.35rem;
+  border-radius: var(--radius-control);
+  font-family: var(--font-amount);
+  font-size: 1.55rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--label);
+  transition:
+    background-color 90ms ease,
+    transform 120ms var(--ease-out);
+}
+
+.key:active {
+  background: var(--fill);
+  transform: scale(0.94);
+}
+
+.key[data-key='000'] {
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+@media (max-height: 700px) {
+  .key {
+    min-height: 2.9rem;
+  }
+}

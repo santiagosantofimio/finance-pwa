@@ -1,0 +1,25 @@
+.track {
+  position: relative;
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--fill);
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--tint);
+  transform-origin: left center;
+  transition: transform 500ms var(--ease-out);
+}
+
+.track[data-state='warning'] .fill {
+  background: var(--warning-fill);
+}
+
+.track[data-state='over'] .fill {
+  background: var(--danger-fill);
+}

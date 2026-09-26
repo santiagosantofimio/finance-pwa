@@ -14,9 +14,18 @@ The interface is in Spanish and amounts are in Colombian pesos (COP).
 - Password-encrypted backup export and import, and plain CSV export.
 - Works fully offline once installed.
 
+## Design
+
+The app is meant to feel like a native iOS app, not a website:
+
+- Large titles that collapse into a translucent navigation bar, inset grouped lists and a floating tab bar with a separate add button, following iOS 26 conventions.
+- Bottom sheets built on the native `<dialog>` element, with drag-to-dismiss that respects release velocity.
+- An in-app numeric keypad for amounts, so logging a movement never opens the system keyboard.
+- Light and dark themes that follow the system, Dynamic Type through `-apple-system-body`, safe-area insets, and reduced-motion and reduced-transparency fallbacks.
+
 ## Privacy and security
 
-- **No data leaves the device.** No analytics, no CDNs, no third-party requests. Fonts are bundled with the app.
+- **No data leaves the device.** No analytics, no CDNs, no third-party requests. The UI uses the system font stack, so no font files are fetched at all.
 - **Strict Content Security Policy.** The production build ships a `<meta http-equiv="Content-Security-Policy">` starting from `default-src 'self'`, with no inline scripts or styles and no `data:` fonts (`build.assetsInlineLimit` is `0`).
 - **Encrypted backups.** Backups use the Web Crypto API only:
   - PBKDF2-SHA256 with 600,000 iterations (the current OWASP recommendation) derives a 256-bit AES-GCM key.

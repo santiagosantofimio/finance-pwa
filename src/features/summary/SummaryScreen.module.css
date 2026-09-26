@@ -1,0 +1,174 @@
+.year {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--label-2);
+}
+
+.ledger {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.ledgerLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+  font-size: 0.94rem;
+  color: var(--label-2);
+}
+
+.ledgerLine :global(.amount) {
+  color: var(--label);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.ledgerLine :global(.amount[data-kind='income']) {
+  color: var(--positive);
+}
+
+.ledgerTotal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-top: 0.7rem;
+  padding-top: 0.8rem;
+  border-top: 0.5px solid var(--separator);
+}
+
+.ledgerTotalLabel {
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.balance {
+  font-size: 2.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.balance[data-negative] {
+  color: var(--danger);
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.flowText {
+  font-size: 0.82rem;
+  color: var(--label-2);
+}
+
+.shareBar {
+  display: flex;
+  gap: 2px;
+  height: 10px;
+  margin: 1rem 1rem 0.35rem;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.shareSegment {
+  flex-basis: 0;
+  min-width: 3px;
+}
+
+.rowProgress {
+  display: block;
+  margin-top: 0.45rem;
+}
+
+.linkText {
+  color: var(--tint);
+  font-weight: 500;
+}
+
+.noticeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--fill);
+  color: var(--label-2);
+}
+
+.noticeIcon[data-tone='warning'] {
+  background: color-mix(in srgb, var(--warning-fill) 18%, transparent);
+  color: var(--warning);
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin: 0.5rem var(--gutter) 2rem;
+  padding: 1.5rem 1.25rem 1.4rem;
+  border-radius: var(--radius-group);
+  background: var(--surface);
+}
+
+.welcomeMark {
+  width: 3.4rem;
+  height: auto;
+  color: var(--brand);
+  margin-bottom: 0.3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .welcomeMark {
+    color: var(--tint);
+  }
+}
+
+.welcomeTitle {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.welcomeText {
+  font-size: 0.94rem;
+  line-height: 1.45;
+  color: var(--label-2);
+  max-width: 34ch;
+}
+
+.welcomeText strong {
+  color: var(--label);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2.5rem var(--gutter);
+  text-align: center;
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.emptyText {
+  font-size: 0.9rem;
+  color: var(--label-2);
+  margin-bottom: 0.6rem;
+  max-width: 30ch;
+}

@@ -1,0 +1,90 @@
+.month {
+  margin: -0.6rem calc(var(--gutter) + 4px) 1.1rem;
+  font-size: 0.94rem;
+  color: var(--label-2);
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.overviewLine {
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--label-2);
+}
+
+.overviewLine :global(.amount) {
+  color: var(--label);
+  font-weight: 600;
+}
+
+.overviewNote {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--label-2);
+}
+
+.overviewNote[data-state='over'] {
+  color: var(--danger);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0 var(--gutter) 1.6rem;
+  padding: 0 0.25rem;
+}
+
+.introTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.introText {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--label-2);
+  max-width: 40ch;
+}
+
+.spent {
+  font-family: var(--font-amount);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--label);
+}
+
+.status[data-state='warning'] {
+  color: var(--warning);
+}
+
+.status[data-state='over'] {
+  color: var(--danger);
+  font-weight: 500;
+}
+
+.rowProgress {
+  display: block;
+  margin-top: 0.45rem;
+}
+
+.link {
+  color: var(--tint);
+  font-weight: 500;
+}
+
+.copyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--fill);
+  color: var(--tint);
+}

@@ -7,7 +7,7 @@ const expenseSeeds: CategorySeed[] = [
   { id: 'dining', name: 'Restaurantes', color: '#e8590c', icon: 'utensils' },
   { id: 'transport', name: 'Transporte', color: '#1c7ed6', icon: 'bus' },
   { id: 'housing', name: 'Vivienda', color: '#7048e8', icon: 'house' },
-  { id: 'utilities', name: 'Servicios', color: '#f59f00', icon: 'zap' },
+  { id: 'utilities', name: 'Servicios', color: '#e67700', icon: 'zap' },
   { id: 'health', name: 'Salud', color: '#e03131', icon: 'heart-pulse' },
   { id: 'education', name: 'Educación', color: '#0c8599', icon: 'graduation-cap' },
   { id: 'entertainment', name: 'Entretenimiento', color: '#d6336c', icon: 'clapperboard' },
