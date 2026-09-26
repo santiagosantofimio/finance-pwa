@@ -61,7 +61,7 @@ export default defineConfig({
       injectRegister: false,
       manifest: {
         id: base,
-        name: 'Luka',
+        name: 'Luka Wallet',
         short_name: 'Luka',
         description: 'Finanzas personales que viven solo en tu teléfono.',
         lang: 'es-CO',

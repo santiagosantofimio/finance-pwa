@@ -1,4 +1,4 @@
-# Luka
+# Luka Wallet
 
 A local-first personal finance app for everyday use on an iPhone. It is a Progressive Web App: open the URL in Safari, tap Share, then "Add to Home Screen". There is no App Store, no account and no server. Every record lives in the browser's IndexedDB on the device.
 

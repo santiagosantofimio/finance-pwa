@@ -8,7 +8,7 @@ export function App() {
 
   return (
     <main>
-      <h1>Luka</h1>
+      <h1>Luka Wallet</h1>
       {needRefresh && (
         <button type="button" onClick={() => updateServiceWorker(true)}>
           Actualizar
