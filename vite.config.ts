@@ -59,6 +59,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       injectRegister: false,
+      pwaAssets: {
+        config: true,
+        overrideManifestIcons: true,
+        injectThemeColor: false,
+      },
       manifest: {
         id: base,
         name: 'Luka Wallet',
@@ -70,8 +75,8 @@ export default defineConfig({
         orientation: 'portrait',
         scope: base,
         start_url: base,
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        theme_color: '#F2F4F1',
+        background_color: '#F2F4F1',
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2,webmanifest}'],
