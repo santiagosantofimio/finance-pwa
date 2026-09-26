@@ -67,6 +67,6 @@ npm run preview
 The app is static and can be served from any HTTPS host. Two targets are set up:
 
 - **GitHub Pages:** pushing to `main` runs lint, tests and the build, then publishes `dist/` under `/finance-pwa/`. `index.html` is copied to `404.html` so deep links load the app.
-- **Cloudflare Pages:** `npm run deploy:cloudflare` builds with `BASE_PATH=/` and uploads `dist/` with Wrangler. The build emits a `_headers` file, so Cloudflare serves the Content Security Policy as a real HTTP header (including `frame-ancestors 'none'`) together with `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` and no-cache rules for the service worker and manifest.
+- **Cloudflare:** `npm run deploy:cloudflare` builds with `BASE_PATH=/` and deploys `dist/` as a static-assets Worker (`wrangler.jsonc`), which is where Cloudflare Pages projects now live. The build emits a `_headers` file, so Cloudflare serves the Content Security Policy as a real HTTP header (including `frame-ancestors 'none'`) together with `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` and no-cache rules for the service worker and manifest.
 
 Each origin has its own IndexedDB. To move data between installs, export an encrypted backup on one and import it on the other.

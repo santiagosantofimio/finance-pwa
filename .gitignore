@@ -8,3 +8,6 @@ coverage/
 .vscode/*
 !.vscode/extensions.json
 .idea
+.wrangler/
+.dev.vars*
+.env*

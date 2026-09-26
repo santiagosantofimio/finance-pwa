@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build:cloudflare": "BASE_PATH=/ npm run build",
-    "deploy:cloudflare": "npm run build:cloudflare && wrangler pages deploy dist --project-name luka-wallet --branch main"
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy"
   },
   "dependencies": {
     "dexie": "^4.4.6",
