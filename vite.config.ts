@@ -5,7 +5,7 @@ import type { Plugin } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
 
-const base = '/finance-pwa/'
+const base = process.env.BASE_PATH ?? '/finance-pwa/'
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -33,6 +33,31 @@ function contentSecurityPolicyMeta(): Plugin {
   }
 }
 
+const securityHeaders = [
+  `Content-Security-Policy: ${contentSecurityPolicy}; frame-ancestors 'none'`,
+  'X-Content-Type-Options: nosniff',
+  'X-Frame-Options: DENY',
+  'Referrer-Policy: no-referrer',
+  'Cross-Origin-Opener-Policy: same-origin',
+  'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+]
+
+function staticHostHeaders(): Plugin {
+  const noCache = ['index.html', 'sw.js', 'manifest.webmanifest']
+  const rules = [
+    `${base}*`,
+    ...securityHeaders.map((header) => `  ${header}`),
+    ...noCache.flatMap((file) => [`${base}${file}`, '  Cache-Control: no-cache']),
+  ]
+  return {
+    name: 'static-host-headers',
+    apply: 'build',
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: '_headers', source: `${rules.join('\n')}\n` })
+    },
+  }
+}
+
 function githubPagesFallback(): Plugin {
   let outDir = 'dist'
   return {
@@ -55,6 +80,7 @@ export default defineConfig({
   plugins: [
     react(),
     contentSecurityPolicyMeta(),
+    staticHostHeaders(),
     githubPagesFallback(),
     VitePWA({
       registerType: 'prompt',

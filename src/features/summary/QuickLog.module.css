@@ -1,0 +1,54 @@
+.quick {
+  margin-bottom: 1.6rem;
+}
+
+.title {
+  padding: 0 calc(var(--gutter) + 1rem) 0.55rem;
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.1rem var(--gutter) 0.3rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+  padding: 0.35rem 1rem 0.35rem 0.35rem;
+  border-radius: 999px;
+  background: var(--surface);
+  scroll-snap-align: start;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 120ms ease;
+}
+
+.chip:active {
+  transform: scale(0.95);
+  background: var(--fill);
+}
+
+.name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chip[data-kind='income'] .name {
+  color: var(--positive);
+}

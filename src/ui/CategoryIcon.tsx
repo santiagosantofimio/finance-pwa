@@ -6,9 +6,10 @@ import styles from './CategoryIcon.module.css'
 interface CategoryIconProps {
   category?: Pick<Category, 'color' | 'icon'>
   size?: number
+  shape?: 'rounded' | 'circle'
 }
 
-export function CategoryIcon({ category, size = 32 }: CategoryIconProps) {
+export function CategoryIcon({ category, size = 32, shape = 'rounded' }: CategoryIconProps) {
   return (
     <span
       className={styles.chip}
@@ -16,7 +17,7 @@ export function CategoryIcon({ category, size = 32 }: CategoryIconProps) {
         backgroundColor: category?.color ?? '#868e96',
         width: size,
         height: size,
-        borderRadius: Math.round(size * 0.3),
+        borderRadius: shape === 'circle' ? '50%' : Math.round(size * 0.3),
       }}
     >
       {createElement(iconFor(category?.icon ?? 'ellipsis'), {

@@ -55,6 +55,7 @@ export function TransactionSheet() {
           key={`${session}-${current.id ?? 'new'}`}
           existing={existing ?? undefined}
           initialKind={current.kind ?? 'expense'}
+          initialCategoryId={current.categoryId}
           categories={categories}
           defaultPayment={defaultPayment}
           isFirst={count === 0}
@@ -68,17 +69,26 @@ export function TransactionSheet() {
 interface TransactionFormProps {
   existing?: Transaction
   initialKind: TransactionKind
+  initialCategoryId?: string
   categories: Category[]
   defaultPayment: PaymentMethod
   isFirst: boolean
   active: boolean
 }
 
-function TransactionForm({ existing: loaded, initialKind, categories, defaultPayment, isFirst, active }: TransactionFormProps) {
+function TransactionForm({
+  existing: loaded,
+  initialKind,
+  initialCategoryId,
+  categories,
+  defaultPayment,
+  isFirst,
+  active,
+}: TransactionFormProps) {
   const [existing] = useState(loaded)
   const [kind, setKind] = useState<TransactionKind>(existing?.kind ?? initialKind)
   const [amount, setAmount] = useState<number | null>(existing?.amount ?? null)
-  const [categoryId, setCategoryId] = useState<string | null>(existing?.categoryId ?? null)
+  const [categoryId, setCategoryId] = useState<string | null>(existing?.categoryId ?? initialCategoryId ?? null)
   const [date, setDate] = useState(existing?.date ?? todayISO())
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(existing?.paymentMethod ?? defaultPayment)
   const [note, setNote] = useState(existing?.note ?? '')

@@ -9,7 +9,7 @@ The interface is in Spanish and amounts are in Colombian pesos (COP).
 - Income and expense entries with amount, category, date, payment method and an optional note.
 - Built-in and custom categories, split by type.
 - Monthly budgets per category with progress and warnings near or over the limit.
-- Home view with the month's balance, income vs. expenses, spending by category and recent entries.
+- Home view with the month's balance, a daily spending chart you can scrub day by day, a comparison with the same point of the previous month, quick-log shortcuts for frequent categories, spending by category, month highlights and recent entries.
 - History with month, category and type filters plus search.
 - Password-encrypted backup export and import, and plain CSV export.
 - Works fully offline once installed.
@@ -64,4 +64,9 @@ npm run preview
 
 ## Deployment
 
-Pushing to `main` runs lint, tests and the build, then publishes `dist/` to GitHub Pages. The app is served under `/finance-pwa/`, and `index.html` is copied to `404.html` so deep links load the app.
+The app is static and can be served from any HTTPS host. Two targets are set up:
+
+- **GitHub Pages:** pushing to `main` runs lint, tests and the build, then publishes `dist/` under `/finance-pwa/`. `index.html` is copied to `404.html` so deep links load the app.
+- **Cloudflare Pages:** `npm run deploy:cloudflare` builds with `BASE_PATH=/` and uploads `dist/` with Wrangler. The build emits a `_headers` file, so Cloudflare serves the Content Security Policy as a real HTTP header (including `frame-ancestors 'none'`) together with `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` and no-cache rules for the service worker and manifest.
+
+Each origin has its own IndexedDB. To move data between installs, export an encrypted backup on one and import it on the other.

@@ -9,7 +9,9 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:cloudflare": "BASE_PATH=/ npm run build",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler pages deploy dist --project-name luka-wallet --branch main"
   },
   "dependencies": {
     "dexie": "^4.4.6",
@@ -29,6 +31,7 @@
     "vite": "^8.3.0",
     "vite-plugin-pwa": "^1.3.0",
     "vitest": "^5.0.2",
-    "workbox-window": "^7.4.1"
+    "workbox-window": "^7.4.1",
+    "wrangler": "^4.141.0"
   }
 }

@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react'
 import type { TransactionKind } from '../db/types'
 
 export type SheetRequest =
-  | { type: 'transaction'; id?: string; kind?: TransactionKind }
+  | { type: 'transaction'; id?: string; kind?: TransactionKind; categoryId?: string }
   | { type: 'budget'; categoryId: string }
   | { type: 'category'; id?: string; kind: TransactionKind }
   | { type: 'backup-export' }

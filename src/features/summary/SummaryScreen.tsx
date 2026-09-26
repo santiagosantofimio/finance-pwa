@@ -2,7 +2,8 @@ import { ChevronLeft, ChevronRight, Download, ShieldAlert } from 'lucide-react'
 import { useState } from 'react'
 import {
   useBackupState,
-  useCategoryMap,
+  useCategories,
+  useCategoryUsage,
   useMonthBudgets,
   useMonthTransactions,
   useTransactionCount,
@@ -10,7 +11,7 @@ import {
 import type { Category, Transaction } from '../../db/types'
 import { isBackupOverdue } from '../../lib/backup-reminder'
 import { budgetStatus, summarizeTransactions } from '../../lib/budget'
-import { currentMonth, daysBetween } from '../../lib/dates'
+import { addMonths, currentMonth, daysBetween, type ISOMonth } from '../../lib/dates'
 import { formatDaysAgo, formatMoney, formatMonthName, formatMonthTitle, formatPercent } from '../../lib/format'
 import { navigate } from '../../lib/router'
 import { isStandalone } from '../../lib/share-file'
@@ -23,22 +24,30 @@ import { Group, Row } from '../../ui/Group'
 import { LogoMark } from '../../ui/LogoMark'
 import { ProgressBar } from '../../ui/ProgressBar'
 import { TransactionRow } from '../transactions/TransactionRow'
+import { MonthFacts } from './MonthFacts'
+import { MonthHero } from './MonthHero'
+import { QuickLog } from './QuickLog'
 import styles from './SummaryScreen.module.css'
 
-const CATEGORY_PREVIEW = 6
+const CATEGORY_PREVIEW = 5
 const RECENT_COUNT = 5
 
 export function SummaryScreen() {
   const month = useSelectedMonth()
   const transactions = useMonthTransactions(month)
-  const categories = useCategoryMap()
+  const previous = useMonthTransactions(addMonths(month, -1))
+  const categoryList = useCategories()
+  const usage = useCategoryUsage()
   const budgets = useMonthBudgets(month)
   const totalCount = useTransactionCount()
   const backup = useBackupState()
-  const isCurrent = month >= currentMonth()
+  const [now] = useState(() => new Date())
+  const isCurrent = month >= currentMonth(now)
+  const today = month === currentMonth(now) ? now.getDate() : null
   const [year] = month.split('-')
 
-  const loading = !transactions || !categories || !budgets || totalCount === undefined
+  const loading = !transactions || !previous || !categoryList || !usage || !budgets || totalCount === undefined
+  const categories = new Map((categoryList ?? []).map((category) => [category.id, category]))
 
   return (
     <Page
@@ -59,19 +68,35 @@ export function SummaryScreen() {
       {!loading && (
         <>
           {!isStandalone() && <InstallHint />}
-          {backup && totalCount > 0 && isBackupOverdue(backup.lastBackupAt, backup.firstUseAt) && (
-            <BackupReminder lastBackupAt={backup.lastBackupAt} />
-          )}
           {totalCount === 0 ? (
-            <Welcome />
-          ) : transactions.length === 0 ? (
-            <EmptyMonth monthLabel={formatMonthName(month).toLocaleLowerCase('es-CO')} />
+            <>
+              <Welcome />
+              <QuickLog categories={categoryList} usage={usage} />
+            </>
           ) : (
-            <MonthContent
-              transactions={transactions}
-              categories={categories}
-              budgets={new Map(budgets.map((budget) => [budget.categoryId, budget.limit]))}
-            />
+            <>
+              <MonthHero
+                key={month}
+                month={month}
+                transactions={transactions}
+                previous={previous}
+                categories={categories}
+                today={today}
+              />
+              <QuickLog categories={categoryList} usage={usage} />
+              {backup && isBackupOverdue(backup.lastBackupAt, backup.firstUseAt) && (
+                <BackupReminder lastBackupAt={backup.lastBackupAt} />
+              )}
+              {transactions.length > 0 && (
+                <MonthContent
+                  month={month}
+                  transactions={transactions}
+                  categories={categories}
+                  budgets={new Map(budgets.map((budget) => [budget.categoryId, budget.limit]))}
+                  today={today}
+                />
+              )}
+            </>
           )}
         </>
       )}
@@ -80,55 +105,21 @@ export function SummaryScreen() {
 }
 
 interface MonthContentProps {
+  month: ISOMonth
   transactions: Transaction[]
   categories: Map<string, Category>
   budgets: Map<string, number>
+  today: number | null
 }
 
-function MonthContent({ transactions, categories, budgets }: MonthContentProps) {
+function MonthContent({ month, transactions, categories, budgets, today }: MonthContentProps) {
   const [showAllCategories, setShowAllCategories] = useState(false)
   const summary = summarizeTransactions(transactions)
   const spending = [...summary.expenseByCategory.entries()].sort((a, b) => b[1] - a[1])
   const visibleSpending = showAllCategories ? spending : spending.slice(0, CATEGORY_PREVIEW)
-  const spentRatio = summary.income > 0 ? summary.expense / summary.income : summary.expense > 0 ? Infinity : 0
 
   return (
     <>
-      <Group>
-        <div className={styles.ledger}>
-          <div className={styles.ledgerLine}>
-            <span>Ingresos</span>
-            <span className="amount" data-kind="income">
-              +{formatMoney(summary.income)}
-            </span>
-          </div>
-          <div className={styles.ledgerLine}>
-            <span>Gastos</span>
-            <span className="amount">{formatMoney(summary.expense)}</span>
-          </div>
-          <div className={styles.ledgerTotal}>
-            <span className={styles.ledgerTotalLabel}>{summary.balance < 0 ? 'Gastaste de más' : 'Te queda'}</span>
-            <span className={`amount ${styles.balance}`} data-negative={summary.balance < 0 ? 'true' : undefined}>
-              {formatMoney(summary.balance)}
-            </span>
-          </div>
-          <div className={styles.flow}>
-            <ProgressBar
-              ratio={spentRatio}
-              state={spentRatio > 1 ? 'over' : spentRatio >= 0.9 ? 'warning' : 'ok'}
-              label="Parte de los ingresos que ya se gastó"
-            />
-            <p className={styles.flowText}>
-              {summary.income === 0
-                ? 'Aún no registras ingresos este mes.'
-                : spentRatio > 1
-                  ? `Gastaste ${formatMoney(summary.expense - summary.income)} más de lo que entró.`
-                  : `Llevas gastado el ${formatPercent(spentRatio)} de lo que entró.`}
-            </p>
-          </div>
-        </div>
-      </Group>
-
       {spending.length > 0 && (
         <Group title="Gastos por categoría">
           <div className={styles.shareBar} aria-hidden>
@@ -151,11 +142,15 @@ function MonthContent({ transactions, categories, budgets }: MonthContentProps) 
                 title={category?.name ?? 'Sin categoría'}
                 trailing={<span className="amount">{formatMoney(amount)}</span>}
                 subtitle={
-                  status
-                    ? status.state === 'over'
-                      ? `Te pasaste por ${formatMoney(-status.remaining)}`
-                      : `Quedan ${formatMoney(status.remaining)} de ${formatMoney(status.limit)}`
-                    : `${formatPercent(amount / summary.expense)} del gasto`
+                  status ? (
+                    <span className={styles.status} data-state={status.state}>
+                      {status.state === 'over'
+                        ? `Te pasaste por ${formatMoney(-status.remaining)}`
+                        : `Quedan ${formatMoney(status.remaining)} de ${formatMoney(status.limit)}`}
+                    </span>
+                  ) : (
+                    `${formatPercent(amount / summary.expense)} del gasto`
+                  )
                 }
                 detail={
                   status ? (
@@ -184,6 +179,8 @@ function MonthContent({ transactions, categories, budgets }: MonthContentProps) 
           )}
         </Group>
       )}
+
+      <MonthFacts month={month} transactions={transactions} categories={categories} today={today} />
 
       <Group
         title="Últimos movimientos"
@@ -218,18 +215,6 @@ function Welcome() {
       </p>
       <Button variant="primary" size="large" onClick={() => openSheet({ type: 'transaction' })}>
         Registrar el primero
-      </Button>
-    </section>
-  )
-}
-
-function EmptyMonth({ monthLabel }: { monthLabel: string }) {
-  return (
-    <section className={styles.empty}>
-      <p className={styles.emptyTitle}>Sin movimientos en {monthLabel}</p>
-      <p className={styles.emptyText}>Lo que registres con fecha de este mes aparecerá aquí.</p>
-      <Button variant="secondary" onClick={() => openSheet({ type: 'transaction' })}>
-        Registrar movimiento
       </Button>
     </section>
   )

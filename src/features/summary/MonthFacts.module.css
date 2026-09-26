@@ -1,0 +1,62 @@
+.facts {
+  margin: 0 var(--gutter) 1.75rem;
+}
+
+.title {
+  padding: 0 1rem 0.5rem;
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5px;
+  border-radius: var(--radius-group);
+  background: var(--separator);
+  overflow: hidden;
+}
+
+.grid[data-count='3'] .cell:first-child {
+  grid-column: 1 / -1;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0.85rem 1rem 0.9rem;
+  background: var(--surface);
+}
+
+.cellTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--label-2);
+}
+
+.cellTitle svg {
+  color: var(--tint);
+}
+
+.value {
+  margin-top: 0.15rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail {
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: var(--label-2);
+}
